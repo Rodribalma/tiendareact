@@ -4,7 +4,7 @@ const NavBar = ()  =>{
     return(
         <>
         <img src= "alt" />
-        <h1>Tinda LeCrack </h1>
+        <h1>Tienda LeCrack </h1>
         <nav>
     <div class="nav-wrapper">
       <a href="#" class="brand-logo">Logo</a>
@@ -19,3 +19,4 @@ const NavBar = ()  =>{
 
     )
 }
+export default NavBar; 
