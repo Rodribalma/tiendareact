@@ -1,13 +1,17 @@
 import ItemListContainer from "./components/ItemListContainer";
 import NavBar from "./components/NavBar";
+import Contador from "./componets/ItemCount/ItemCount";
 
-function App() {
+const App =() => {
+
   return (
-    <div>
+    <>
       <NavBar />
-      <ItemListContainer greeting="Welcome to EightShop" />
-    </div>
+      <ItemListContainer greeting="Tienda LeCrack" />
+      <hr />
+      <Contador />
+    </>
   );
 }
 
-export default App;
+export default App
