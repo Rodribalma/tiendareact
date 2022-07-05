@@ -1,6 +1,6 @@
-import ItemListContainer from "./components/ItemListContainer";
-import NavBar from "./components/NavBar";
-import Contador from "./componets/ItemCount/ItemCount";
+import ItemListContainer from "./components/ItemListContainer/ItemListContainer";
+import NavBar from "./components/NavBar/NavBar";
+import Contador from "./components/ItemCount/ItemCount";
 
 const App =() => {
 
@@ -14,4 +14,4 @@ const App =() => {
   );
 }
 
-export default App
+export default App;
