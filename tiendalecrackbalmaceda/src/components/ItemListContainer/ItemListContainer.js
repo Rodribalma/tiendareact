@@ -1,44 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import ItemList from '../ItemList/ItemList';
-import { getProds } from '../../mock/products';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import Item from "../Item/Item";
 
 const ItemListContainer = () => {
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const [productos, setProdcutos] = useState([]);
 
-    const categoryId = 'jewelery';
-   
-    useEffect(() => {
-        setLoading(true);
-
-        const URL = categoryId
-            ? `https://fakestoreapi.com/products/category/${categoryId}`
-            : 'https://fakestoreapi.com/products';
-
-       
-
-        fetch(URL)
-            .then((res) => res.json())
-            .then((json) => setProducts(json))
-            .finally(() => {
-                setLoading(false);
-            });
-
-    }, [categoryId]);
-
-    return (
-        <div>
-            {loading ? (
-                <h2>Cargando...</h2>
-            ) : (
-                <>
-                    <ItemList items={products} />
-                </>
-            )}
-        </div>
-    );
+  useEffect(() => {
+    fetch("../../../../mocks/productos.json")
+      .then((res) => res.json())
+      .then((data) => setProdcutos(data));
+  }, []);
+/*TODO: agregar TimeOut con demora de 2000 , usar una promesa nueva. Agregar cartel "loading" */
+/*TODO: mover estilos a archivo CSS */
+  return (
+    <div
+    style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        maxWidth: '80%',
+        margin: '0 auto',
+    }}
+>
+    {productos.map((item) =>(<Item key={item.id} producto={item}/>))}
+</div>
+  );
 };
 
 export default ItemListContainer;
-

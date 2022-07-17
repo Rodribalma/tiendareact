@@ -1,0 +1,66 @@
+[
+    {
+      "id": 1,
+      "titulo": "NikeBlack",
+      "precio": 1500,
+      "stock": 5,
+      "imagen": "zapatilla1.jpg",
+      "categoria": "calzado"
+    },
+    {
+      "id": 2,
+      "titulo": "NikeBoy",
+      "precio": 3500,
+      "stock": 5,
+      "imagen": "zapatilla3.jpg",
+      "categoria": "calzado"
+    },
+    {
+      "id": 3,
+      "titulo": "NikeAirBlue",
+      "precio": 4500,
+      "stock": 5,
+      "imagen": "zapatilla4.jpg",
+      "categoria": "calzado"
+    },
+    {
+      "id": 4,
+      "titulo": "NikeBlack",
+      "precio": 1500,
+      "stock": 5,
+      "imagen": "zapatilla1.jpg",
+      "categoria": "pantalones"
+    },
+    {
+      "id": 5,
+      "titulo": "NikePaste",
+      "precio": 2500,
+      "stock": 5,
+      "imagen": "zapatilla2.jpg",
+      "categoria": "remeras"
+    },
+    {
+      "id": 6,
+      "titulo": "NikeBoy",
+      "precio": 3500,
+      "stock": 5,
+      "imagen": "zapatilla3.jpg",
+      "categoria": "pantalones"
+    },
+    {
+      "id": 7,
+      "titulo": "NikePaste",
+      "precio": 2500,
+      "stock": 5,
+      "imagen": "zapatilla2.jpg",
+      "categoria": "pantalones"
+    },
+    {
+      "id": 8,
+      "titulo": "NikeAirBlue",
+      "precio": 4500,
+      "stock": 5,
+      "imagen": "zapatilla4.jpg",
+      "categoria": "pantalones"
+    }
+  ]

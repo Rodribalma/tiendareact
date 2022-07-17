@@ -1,21 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import "./item.css";
 
-const Item = ({ item }) => {
-    return (
-        <div
-            style={{
-                margin: '10px 20px',
-                border: '2px solid black',
-                width: '40%',
-            }}
-        >
-            <img width="200px" src={item.image} alt="producto" />
-            <h2>{item.title}</h2>
-            <p>${item.price}</p>
-            <Link to={`/detail/${item.id}`}>Ver detalle</Link>
-        </div>
-    );
+/*TODO: Agregar ruta de link*/
+
+const Item = ({ producto }) => {
+  const [cantidad, setCantidad] = useState(1);
+
+  return (
+    <div className="producto">
+      <img width="200px" src={producto.imagen} alt="producto" />
+      <h2>{producto.titulo}</h2>
+      <p>${producto.precio}</p>
+      {/*TODO: si no hay stock , no mostrar o mostrar "sin Stock"*/}
+      
+      <button onClick={() => setCantidad(cantidad === 1 ? 1 : cantidad - 1)}>
+        -
+      </button>
+      {cantidad}
+      {/*TODO: configurar para agregar el stock menos lo que hay en el carrito.*/}
+      <button
+        onClick={() =>
+          setCantidad(cantidad === producto.stock ? cantidad : cantidad + 1)
+        }
+      >
+        +
+      </button>
+      {/*TODO:cuando tengamos carrito , activar boton*/}
+      <button>Agregar al Carrito</button>
+    </div>
+  );
 };
 
 export default Item;
