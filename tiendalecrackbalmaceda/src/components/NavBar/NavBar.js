@@ -1,27 +1,44 @@
 import React from "react";
 import logo from "../../assets/img/lecrack.jpg";
 import "./NavBar.css";
+import { NavLink, Link } from "react-router-dom";
 
- /* TODO: Cambiar por la opcion de react router */
-
-
-const NavBar = () => {
+const NavBar = ({ cantidadProductos }) => {
   return (
     <nav>
-        <a href="#">
+      <div>{cantidadProductos}</div>
+      <Link to="/">
         <img className="brand-logo" src={logo} />
-        </a>
-        <ul>
-          <li>
-            <a href="sass.html">Sass</a>
-          </li>
-          <li>
-            <a href="badges.html">Components</a>
-          </li>
-          <li>
-            <a href="collapsible.html">JavaScript</a>
-          </li>
-        </ul>
+      </Link>
+      <ul>
+        <li>
+          <NavLink
+            to="/categoria/calzado"
+            activeClassName="currentCategory"
+            className="text-white"
+          >
+            Calzado
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/categoria/remeras"
+            activeClassName="currentCategory"
+            className="text-white"
+          >
+            Remeras
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/categoria/accesorios"
+            activeClassName="currentCategory"
+            className="text-white"
+          >
+            Accesorios
+          </NavLink>
+        </li>
+      </ul>
     </nav>
   );
 };

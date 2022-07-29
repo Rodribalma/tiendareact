@@ -4,7 +4,7 @@
       "titulo": "NikeBlack",
       "precio": 1500,
       "stock": 5,
-      "imagen": "zapatilla1.jpg",
+      "imagen": "https://www.digitalsport.com.ar/files/products/627d3b6e9cc80-542203-500x500.jpg",
       "categoria": "calzado"
     },
     {
@@ -29,7 +29,7 @@
       "precio": 1500,
       "stock": 5,
       "imagen": "zapatilla1.jpg",
-      "categoria": "pantalones"
+      "categoria": "accesorios"
     },
     {
       "id": 5,
@@ -45,7 +45,7 @@
       "precio": 3500,
       "stock": 5,
       "imagen": "zapatilla3.jpg",
-      "categoria": "pantalones"
+      "categoria": "accesorios"
     },
     {
       "id": 7,
@@ -53,7 +53,7 @@
       "precio": 2500,
       "stock": 5,
       "imagen": "zapatilla2.jpg",
-      "categoria": "pantalones"
+      "categoria": "accesorios"
     },
     {
       "id": 8,
@@ -61,6 +61,6 @@
       "precio": 4500,
       "stock": 5,
       "imagen": "zapatilla4.jpg",
-      "categoria": "pantalones"
+      "categoria": "accesorios"
     }
   ]

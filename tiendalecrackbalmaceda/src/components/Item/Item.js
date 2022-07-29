@@ -3,7 +3,7 @@ import "./item.css";
 
 /*TODO: Agregar ruta de link*/
 
-const Item = ({ producto }) => {
+const Item = ({ producto,agregarCarrito}) => {
   const [cantidad, setCantidad] = useState(1);
 
   return (
@@ -25,8 +25,11 @@ const Item = ({ producto }) => {
       >
         +
       </button>
-      {/*TODO:cuando tengamos carrito , activar boton*/}
-      <button>Agregar al Carrito</button>
+
+      <button
+      onClick={()=>
+        agregarCarrito({...producto,cantidad})}
+      >Agregar al Carrito</button>
     </div>
   );
 };
