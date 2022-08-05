@@ -2,11 +2,11 @@ import React from "react";
 import logo from "../../assets/img/lecrack.jpg";
 import "./NavBar.css";
 import { NavLink, Link } from "react-router-dom";
+import CartWidget from "../CartWidget/CartWidget";
 
-const NavBar = ({ cantidadProductos }) => {
+const NavBar = () => {
   return (
     <nav>
-      <div>{cantidadProductos}</div>
       <Link to="/">
         <img className="brand-logo" src={logo} />
       </Link>
@@ -39,6 +39,7 @@ const NavBar = ({ cantidadProductos }) => {
           </NavLink>
         </li>
       </ul>
+      <CartWidget />
     </nav>
   );
 };

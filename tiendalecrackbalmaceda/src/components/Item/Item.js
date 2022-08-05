@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState , useContext } from "react";
 import "./item.css";
+import { CartContext } from "../../context/cartContext";
 
 /*TODO: Agregar ruta de link*/
 
-const Item = ({ producto,agregarCarrito}) => {
+const Item = ({ producto}) => {
+  const {addToCart} = useContext (CartContext);
   const [cantidad, setCantidad] = useState(1);
 
   return (
@@ -28,7 +30,7 @@ const Item = ({ producto,agregarCarrito}) => {
 
       <button
       onClick={()=>
-        agregarCarrito({...producto,cantidad})}
+        addToCart({...producto,cantidad})}
       >Agregar al Carrito</button>
     </div>
   );
