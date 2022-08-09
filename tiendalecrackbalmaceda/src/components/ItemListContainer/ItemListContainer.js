@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { getDocs, collection, getFirestore } from "firebase/firestore";
 import Item from "../Item/Item";
 import { useParams, useNavigate } from "react-router-dom";
+import Grid from "@mui/material/Grid";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const ItemListContainer = () => {
   const [productos, setProductos] = useState([]);
@@ -8,41 +11,57 @@ const ItemListContainer = () => {
   const { idCategoria } = useParams();
   const navigate = useNavigate();
 
-  const asyncMock = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      fetch("../../../../mocks/productos.json")
-        .then((res) => res.json())
-        .then((data) => {
-          const productos = idCategoria
-            ? data.filter((item) => item.categoria === idCategoria)
-            : data;
-          if (productos.length !== 0) {
-            resolve(productos);
-          } else {
-            reject();
-          }
-        });
-    }, 2000);
-  });
-
   useEffect(() => {
     setCargando(true);
-    asyncMock.then(
-      (items) => {
-        setProductos(items);
+    const db = getFirestore();
+    const collectionRef = collection(db, "items");
+    // TODO: FALTA APLICAR FILTRO DE CATEGORIA
+    // USAR query y where... maybe limit con un steper...
+    getDocs(collectionRef).then((snapshot) => {
+      if (snapshot.size > 0) {
+        setProductos(
+          snapshot.docs.map((item) => ({
+            id: item.id,
+            ...item.data(),
+          }))
+        );
         setCargando(false);
-      },
-      () => navigate("/notfound")
-    );
-  }, [idCategoria]);
+      } else {
+        navigate("/notfound");
+      }
+    });
+  }, [idCategoria, navigate]);
 
-  /*TODO: mover estilos a archivo CSS (ARREGLAR) */
   return (
-    <div className="item">
-      {cargando
-        ? "loading.."
-        : productos.map((item) => <Item key={item.id} producto={item} />)}
-    </div>
+    <Grid container spacing={2}>
+      {cargando ? (
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          style={{ minHeight: "100vh" }}
+        >
+          <CircularProgress size={50} />
+        </Grid>
+      ) : (
+        productos.map((item) => (
+          <Grid
+            key={item.id}
+            item
+            xs={12}
+            md={6}
+            lg={4}
+            xl={3}
+            container
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Item producto={item} />
+          </Grid>
+        ))
+      )}
+    </Grid>
   );
 };
 

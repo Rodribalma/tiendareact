@@ -1,24 +1,16 @@
-import { useState } from "react"
+import React from "react";
+import { Button } from "@mui/material";
 
-const Contador = () =>{
-    const [contador,setContador]= useState(0);
-    
-    const sumar = () => setContador(contador + 1);
+const ItemCount = ({ cantidad, onAdd, onSub }) => {
+  return (
+    <>
+      <Button size="small" onClick={onSub}>
+        -
+      </Button>
+      {cantidad}
+      <Button size="small" onClick={onAdd}></Button>
+    </>
+  );
+};
 
-    const restar = () => setContador(contador - 1);
-
-    return(
-        <div>
-            <h2>Contador</h2>
-            <nav>
-                <button onClick={sumar}>+</button>
-                <button onClick={restar}>-</button>
-            </nav>
-            <h3>{Contador} </h3>
-
-
-        </div>
-    )
-}
-
-export default Contador;
+export default ItemCount;

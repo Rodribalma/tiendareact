@@ -6,7 +6,7 @@ const CartProvider = (props) => {
   const [cart, setCart] = useState([]);
 
   const addToCart = (item) => {
-    if (isInCart(item.id)) {
+    if (isInCart(item.id) !== 0) {
       sumarCantidad(item.id, item.cantidad);
     } else {
       setCart([...cart, item]);
@@ -14,7 +14,8 @@ const CartProvider = (props) => {
   };
 
   const isInCart = (id) => {
-    return cart.some((prod) => prod.id === id);
+    const producto = cart.find((prod) => prod.id === id);
+    return producto ? producto.cantidad : 0;
   };
 
   const sumarCantidad = (id, cantidad) => {
@@ -32,14 +33,14 @@ const CartProvider = (props) => {
 
   const calcularTotal = () => {
     return cart.reduce(
-      (acum, actual) => acum + actual.price * actual.cantidad,
+      (acum, actual) => acum + actual.precio * actual.cantidad,
       0
     );
   };
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, deleteItem, calcularTotal }}
+      value={{ cart, addToCart, deleteItem, calcularTotal, isInCart }}
     >
       {props.children}
     </CartContext.Provider>
