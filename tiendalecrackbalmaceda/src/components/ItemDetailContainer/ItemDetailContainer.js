@@ -9,7 +9,6 @@ const ItemDetailContainer = () => {
   const { idItem } = useParams();
   const [producto, setProducto] = useState(null);
   const [cargando, setCargando] = useState(true);
-  const { id } = useParams();
 
   useEffect(() => {
     if (!idItem) navigate("/notfound");

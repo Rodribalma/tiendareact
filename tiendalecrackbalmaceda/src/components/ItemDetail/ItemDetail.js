@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import { Grid, Typography, Button, Divider } from "@mui/material";
 import { CartContext } from "../../context/cartContext";
+import { Grid, Typography, Button, Divider } from "@mui/material";
 import ItemCount from "../ItemCount/ItemCount";
 import ProductosRelacionados from "../ProductosRelacionados/ProductosRelacionados";
 

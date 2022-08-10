@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { CartContext } from "../../context/cartContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import {
   Typography,
   Grid,
@@ -13,38 +13,38 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  AvatarGroup,
+  Avatar,
+  CircularProgress,
 } from "@mui/material";
-import {
-  doc,
-  addDoc,
-  collection,
-  getFirestore,
-  updateDoc,
-  writeBatch,
-} from "firebase/firestore";
+import { doc, collection, getFirestore, writeBatch } from "firebase/firestore";
 
 const Checkout = () => {
-  const { cart, calcularTotal } = useContext(CartContext);
+  const { cart, calcularTotal, calcularCantidadDeProductos, vaciarCarrito } =
+    useContext(CartContext);
+
   const navigate = useNavigate();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [newOrderId, setNewOrderId] = useState("");
+  const [buyer, setBuyer] = useState({ name: "", email: "", phone: "" });
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [guardando, setGuardando] = useState(false);
 
   const getError = () => {
-    if (!name) return "nombre";
-    if (!email) return "email";
-    if (!phone) return "teléfono";
+    if (buyer.name === "") return "nombre";
+    if (buyer.email === "") return "email";
+    if (buyer.phone === "") return "teléfono";
     if (cart.length === 0) return "carrito";
   };
 
   const onFinish = async () => {
     setError(false);
-    if (!name || !email || !phone || calcularTotal() === 0) {
+    if (
+      buyer.name === "" ||
+      buyer.email === "" ||
+      buyer.phone === "" ||
+      cart.length === 0
+    ) {
       setError(getError());
       return;
     }
@@ -53,13 +53,13 @@ const Checkout = () => {
     const newOrder = {
       items: cart,
       total: calcularTotal(),
-      buyer: { name, email, phone },
+      buyer,
     };
 
     const db = getFirestore();
     const batch = writeBatch(db);
 
-    const collectionRef = collection(db, "Ordenes");
+    const collectionRef = doc(collection(db, "Ordenes"));
     batch.set(collectionRef, newOrder);
 
     cart.forEach((item) => {
@@ -67,20 +67,28 @@ const Checkout = () => {
       batch.update(ordenStockRef, { stock: item.stock - item.cantidad });
     });
 
-    await batch.commit();
+    batch.commit().then((response) => console.log("response", response));
 
-    // setNewOrderId(id);
-    // setSuccess(true);
+    setSuccess(true);
     setGuardando(false);
   };
 
   const handleDialogClose = () => {
+    vaciarCarrito();
     setSuccess(false);
     navigate("/");
   };
 
   return guardando ? (
-    "guardando..."
+    <Grid
+      container
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      style={{ minHeight: "100vh" }}
+    >
+      <CircularProgress size={50} />
+    </Grid>
   ) : (
     <>
       <Grid
@@ -103,6 +111,51 @@ const Checkout = () => {
             Finaliza tu compra
           </Typography>
         </Grid>
+
+        {cart.length === 0 ? (
+          <Grid
+            item
+            xs={12}
+            md={8}
+            container
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Typography variant="body2" gutterBottom>
+              Tu carrito esta vacío
+            </Typography>
+          </Grid>
+        ) : (
+          <Grid
+            item
+            xs={12}
+            md={8}
+            container
+            direction="row"
+            justifyContent="flex-start"
+            spacing="15"
+            alignItems="center"
+          >
+            <Grid item xs={8} md={4}>
+              <AvatarGroup max={4} total={cart.length}>
+                {cart.map((item) => (
+                  <Avatar key={item.id} alt={item.titulo} src={item.imagen} />
+                ))}
+              </AvatarGroup>
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <Typography
+                variant="body1"
+                align="center"
+                sx={{ whiteSpace: "pre-line", ml: 5 }}
+              >
+                {`Cantidad de productos: ${calcularCantidadDeProductos()} - Total: $ ${calcularTotal()}`}
+              </Typography>
+            </Grid>
+          </Grid>
+        )}
+
         {error && (
           <Grid
             item
@@ -129,8 +182,8 @@ const Checkout = () => {
             id="outlined-basic"
             label="Nombre"
             variant="outlined"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={buyer.name}
+            onChange={(e) => setBuyer({ ...buyer, name: e.target.value })}
           />
         </Grid>
         <Grid
@@ -145,8 +198,8 @@ const Checkout = () => {
             id="outlined-basic"
             label="Email"
             variant="outlined"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={buyer.email}
+            onChange={(e) => setBuyer({ ...buyer, email: e.target.value })}
           />
         </Grid>
         <Grid
@@ -161,22 +214,34 @@ const Checkout = () => {
             id="outlined-basic"
             label="Teléfono"
             variant="outlined"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            value={buyer.phone}
+            onChange={(e) => setBuyer({ ...buyer, phone: e.target.value })}
           />
         </Grid>
-        <Grid item xs={8}>
-          <Divider />
-        </Grid>
-        <Grid item xs={8} container justifyContent="center">
-        <Button
-           size="large"
-           color="primary"
-            variant="contained"
-            onClick={onFinish}
-          >
-            finalizar
+        <Grid
+          item
+          xs={8}
+          container
+          direction="row"
+          justifyContent="space-evenly"
+        >
+          <Grid item xs={12} md={4} align="center">
+            <NavLink to="/cart" style={{ textDecoration: "none" }}>
+              <Button size="large" variant="outlined">
+                Volver al carrito
+              </Button>
+            </NavLink>
+          </Grid>
+          <Grid item xs={12} md={4} align="center">
+            <Button
+              size="large"
+              color="primary"
+              variant="contained"
+              onClick={onFinish}
+            >
+              Finalizar
             </Button>
+          </Grid>
         </Grid>
       </Grid>
 
@@ -190,8 +255,7 @@ const Checkout = () => {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Orden creada con éxito, proximamente le llegará un email de
-            confirmación. Por más detalles, éste es el numero de confirmación de
-            su orden: {newOrderId}
+            confirmación.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

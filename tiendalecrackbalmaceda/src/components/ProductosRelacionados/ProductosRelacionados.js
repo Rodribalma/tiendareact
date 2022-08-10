@@ -5,6 +5,7 @@ import {
   getFirestore,
   query,
   where,
+  limit,
 } from "firebase/firestore";
 import ItemList from "../ItemList/ItemList";
 
@@ -18,8 +19,8 @@ const ProductosRelacionados = ({ idCategoria, idProducto }) => {
 
     const collectionRef = collection(db, "Productos");
     const q = idCategoria
-      ? query(collectionRef, where("categoria", "==", idCategoria))
-      : query(collectionRef);
+      ? query(collectionRef, where("categoria", "==", idCategoria), limit(5))
+      : query(collectionRef,limit(5));
 
     getDocs(q).then((snapshot) => {
       if (snapshot.size > 0) {

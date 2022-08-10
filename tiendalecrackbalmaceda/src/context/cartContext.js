@@ -5,14 +5,6 @@ export const CartContext = createContext();
 const CartProvider = (props) => {
   const [cart, setCart] = useState([]);
 
-  const calcularCantidadDeProductos = () => {
-    return cart.length > 0
-      ? cart.reduce((acum, actual) => acum + actual.cantidad, 0)
-      : "0";
-  };
-
-  const vaciarCarrito = () => setCart([]);
-
   const addToCart = (item) => {
     if (isInCart(item.id) !== 0) {
       sumarCantidad(item.id, item.cantidad);
@@ -20,6 +12,13 @@ const CartProvider = (props) => {
       setCart([...cart, item]);
     }
   };
+  const calcularCantidadDeProductos = () => {
+    return cart.length > 0
+      ? cart.reduce((acum, actual) => acum + actual.cantidad, 0)
+      : "0";
+  };
+
+  const vaciarCarrito = () => setCart([]);
 
   const isInCart = (id) => {
     const producto = cart.find((prod) => prod.id === id);
