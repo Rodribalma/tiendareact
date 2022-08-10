@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import {
   getDocs,
   collection,
@@ -9,11 +8,9 @@ import {
 } from "firebase/firestore";
 import ItemList from "../ItemList/ItemList";
 
-const ItemListContainer = () => {
+const ProductosRelacionados = ({ idCategoria, idProducto }) => {
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const { idCategoria } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     setCargando(true);
@@ -27,19 +24,19 @@ const ItemListContainer = () => {
     getDocs(q).then((snapshot) => {
       if (snapshot.size > 0) {
         setProductos(
-          snapshot.docs.map((item) => ({
-            id: item.id,
-            ...item.data(),
-          }))
+          snapshot.docs
+            .filter((item) => item.id !== idProducto)
+            .map((item) => ({
+              id: item.id,
+              ...item.data(),
+            }))
         );
         setCargando(false);
-      } else {
-        navigate("/notfound");
       }
     });
-  }, [idCategoria, navigate]);
+  }, [idCategoria, idProducto]);
 
   return <ItemList productos={productos} cargando={cargando} />;
 };
 
-export default ItemListContainer;
+export default ProductosRelacionados;

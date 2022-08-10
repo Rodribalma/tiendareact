@@ -1,39 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { CircularProgress, Grid } from "@mui/material";
 import ItemDetail from "../ItemDetail/ItemDetail";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 
 const ItemDetailContainer = () => {
-  const [product, setProduct] = useState({});
-  const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
+  const { idItem } = useParams();
+  const [producto, setProducto] = useState(null);
+  const [cargando, setCargando] = useState(true);
   const { id } = useParams();
 
-  // TODO: REHACER ESTA PAGINA PARA CONSUMIR FIREBASE
   useEffect(() => {
-    setLoading(true);
-    const URL = `https://fakestoreapi.com/products/${id}`;
-    fetch(URL)
-      .then((res) => res.json())
-      .then((json) => setProduct(json))
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [id]);
+    if (!idItem) navigate("/notfound");
 
-  return (
-    <div>
-      {loading ? (
-        <Box sx={{ m: "50%" }}>
-          <CircularProgress size={80} />
-        </Box>
-      ) : (
-        <>
-          <ItemDetail product={product} />
-        </>
-      )}
-    </div>
+    setCargando(true);
+    const db = getFirestore();
+    const itemRef = doc(db, "Productos", idItem);
+
+    getDoc(itemRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        setProducto({ id: snapshot.id, ...snapshot.data() });
+        setCargando(false);
+      } else {
+        navigate("/notfound");
+      }
+    });
+  }, [idItem, navigate]);
+
+  return cargando ? (
+    <Grid
+      container
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      style={{ minHeight: "100vh" }}
+    >
+      <CircularProgress size={50} />
+    </Grid>
+  ) : (
+    <ItemDetail producto={producto} />
   );
 };
 

@@ -6,12 +6,12 @@ import { NavLink } from "react-router-dom";
 import { ShoppingCart } from "@mui/icons-material";
 
 const CartWidget = () => {
-  const { cart } = useContext(CartContext);
+  const { calcularCantidadDeProductos } = useContext(CartContext);
 
   return (
     <NavLink to="/cart" style={{ textDecoration: "none" }}>
       <IconButton aria-label="cart">
-        <Badge badgeContent={cart.length || "0"} color="primary">
+      <Badge badgeContent={calcularCantidadDeProductos()} color="secondary">
           <ShoppingCart color="string" />
         </Badge>
       </IconButton>

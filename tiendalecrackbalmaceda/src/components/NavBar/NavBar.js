@@ -31,7 +31,6 @@ const NavBar = () => {
     setAnchorElNav(null);
   };
 
-  // TODO: VER como serparar el contenido de la appBar
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -74,7 +73,6 @@ const NavBar = () => {
               ))}
             </Menu>
           </Box>
-          {/* TODO: Ver de hacer responsive el logo */}
           <Link to="/">
             <img
               className="brand-logo"
@@ -107,7 +105,6 @@ const NavBar = () => {
 
           <Box sx={{ flexGrow: 0 }}>
             <CartWidget />
-            {/* TODO: Cambiar color primary de MUI y ver si hace falta cmabiar color del icono o del badge */}
           </Box>
         </Toolbar>
       </Container>

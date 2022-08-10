@@ -1,7 +1,9 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { CartContext } from "../../context/cartContext";
 import {
+  Button,
   Typography,
   Grid,
   List,
@@ -14,11 +16,9 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-// TODO: AGREGAR COLECCION DE ORDENES EN LA BD
-// {buyer: {name, phone, email}, items:{ ...},total }
-
 const Cart = () => {
-  const { cart, deleteItem, calcularTotal } = useContext(CartContext);
+  const { cart, deleteItem, calcularTotal, vaciarCarrito } =
+    useContext(CartContext);
 
   if (cart.length === 0) {
     return (
@@ -36,16 +36,12 @@ const Cart = () => {
     );
   }
 
-  // TODO: AGREGAR BOTON DE PAGAR...QUE TE LLEVE AL CHECKOUT > y actualice el stock en firestore
-  // TODO: MAYBE BOTON DE VACIAR CARRITO.. QUE BORRE TODO
-
   return (
     <List sx={{ width: "98%", bgcolor: "background.paper", m: 2 }} spacing={2}>
       {cart.map((prod) => (
         <div key={prod.id}>
           <ListItem
             alignItems="flex-start"
-            key={prod.id}
             secondaryAction={
               <IconButton
                 edge="end"
@@ -68,7 +64,6 @@ const Cart = () => {
                   variant="body2"
                   color="text.primary"
                 >
-                  {/* TODO: VER COMO DIVIDIR EN DOS LINEAS O PRESENTAR MEJOR ESTA INFO */}
                   {`cantidad: ${prod.cantidad} - precio: ${prod.precio}
                             Total: ${prod.precio * prod.cantidad}`}
                 </Typography>
@@ -78,9 +73,26 @@ const Cart = () => {
           <Divider variant="inset" component="li" />
         </div>
       ))}
-      <ListItem alignItems="flex-end" key="total">
-        {/* TODO: MAKE mas grande, resaltado, maybe al medio o al final */}
+      <ListItem alignItems="flex-start" key="total">
         <ListItemText primary={`Total: $ ${calcularTotal()}`} />
+      </ListItem>
+      <ListItem alignItems="center" key="finalizar">
+        <NavLink to="/checkout" style={{ textDecoration: "none" }}>
+          <Button
+            sx={{ my: 2, display: "block" }}
+            color="primary"
+            variant="contained"
+          >
+            Finalizar
+          </Button>
+        </NavLink>
+        <Button
+          sx={{ my: 2, display: "block" }}
+          variant="contained"
+          onClick={vaciarCarrito}
+        >
+          Vaciar Carrito
+        </Button>
       </ListItem>
     </List>
   );

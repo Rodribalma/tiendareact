@@ -36,7 +36,6 @@ const Checkout = () => {
   const [guardando, setGuardando] = useState(false);
 
   const getError = () => {
-    console.log(cart);
     if (!name) return "nombre";
     if (!email) return "email";
     if (!phone) return "teléfono";
@@ -60,12 +59,12 @@ const Checkout = () => {
     const db = getFirestore();
     const batch = writeBatch(db);
 
-    const collectionRef = collection(db, "orders");
+    const collectionRef = collection(db, "Ordenes");
     batch.set(collectionRef, newOrder);
 
     cart.forEach((item) => {
-      const orderStockRef = doc(db, "items", item.id);
-      batch.update(orderStockRef, { stock: item.stock - item.cantidad });
+      const ordenStockRef = doc(db, "Productos", item.id);
+      batch.update(ordenStockRef, { stock: item.stock - item.cantidad });
     });
 
     await batch.commit();
@@ -170,9 +169,14 @@ const Checkout = () => {
           <Divider />
         </Grid>
         <Grid item xs={8} container justifyContent="center">
-          <Button size="large" color="primary" onClick={onFinish}>
-            Finalizar
-          </Button>
+        <Button
+           size="large"
+           color="primary"
+            variant="contained"
+            onClick={onFinish}
+          >
+            finalizar
+            </Button>
         </Grid>
       </Grid>
 
