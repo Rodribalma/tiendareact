@@ -8,7 +8,10 @@ const ItemCount = ({ cantidad, onAdd, onSub }) => {
         -
       </Button>
       {cantidad}
-      <Button size="small" onClick={onAdd}></Button>
+      <Button size="small" onClick={onAdd}>
+        {" "}
+        +
+      </Button>
     </>
   );
 };

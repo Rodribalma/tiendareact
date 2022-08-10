@@ -7,14 +7,13 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDp52759XIrA14Muojtb8GlbanxDY_fGFQ",
-  authDomain: "coderbd-c1d87.firebaseapp.com",
-  projectId: "coderbd-c1d87",
-  storageBucket: "coderbd-c1d87.appspot.com",
-  messagingSenderId: "825722496680",
-  appId: "1:825722496680:web:d486da552e25ae31acc49d",
+  apiKey: "AIzaSyBTQiYoWHtIXZPpNUTyFr6lpbmF3LHwZ3I",
+  authDomain: "tiendalecrack.firebaseapp.com",
+  projectId: "tiendalecrack",
+  storageBucket: "tiendalecrack.appspot.com",
+  messagingSenderId: "710656009286",
+  appId: "1:710656009286:web:b489708371204fd53ad647",
 };
-
 // Initialize Firebase
 initializeApp(firebaseConfig);
 

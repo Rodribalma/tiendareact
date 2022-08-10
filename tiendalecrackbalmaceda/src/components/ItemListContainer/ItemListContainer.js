@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getDocs, collection, getFirestore } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore";
 import Item from "../Item/Item";
 import { useParams, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
@@ -14,10 +20,13 @@ const ItemListContainer = () => {
   useEffect(() => {
     setCargando(true);
     const db = getFirestore();
-    const collectionRef = collection(db, "items");
-    // TODO: FALTA APLICAR FILTRO DE CATEGORIA
-    // USAR query y where... maybe limit con un steper...
-    getDocs(collectionRef).then((snapshot) => {
+
+    const collectionRef = collection(db, "Productos");
+    const q = idCategoria
+      ? query(collectionRef, where("categoria", "==", idCategoria))
+      : query(collectionRef);
+
+    getDocs(q).then((snapshot) => {
       if (snapshot.size > 0) {
         setProductos(
           snapshot.docs.map((item) => ({
