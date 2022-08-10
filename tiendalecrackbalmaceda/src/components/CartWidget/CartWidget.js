@@ -12,7 +12,7 @@ const CartWidget = () => {
     <NavLink to="/cart" style={{ textDecoration: "none" }}>
       <IconButton aria-label="cart">
       <Badge badgeContent={calcularCantidadDeProductos()} color="secondary">
-          <ShoppingCart color="string" />
+          <ShoppingCart color="balck" />
         </Badge>
       </IconButton>
     </NavLink>
